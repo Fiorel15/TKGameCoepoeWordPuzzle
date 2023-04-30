@@ -5,6 +5,7 @@
  */
 package TKAplikasiGame;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -15,6 +16,7 @@ import java.util.Scanner;
 public class GameCoepoeWordPuzzle {
     public static void main(String[] args) {
         Scanner input =  new Scanner(System.in);
+        boolean running = true;
         
         System.out.println("==============================================");
         System.out.println("TK 3-Aplikasi Game Coepoe Word Puzzle-Kelompok 4");
@@ -36,6 +38,7 @@ public class GameCoepoeWordPuzzle {
                            "\nPress Enter to START!"
         );
         
+        while (running) {
         input.nextLine();
         System.out.println("" + "Level 1"+"\n"+
                                 "------ "+"\n"+
@@ -72,7 +75,7 @@ public class GameCoepoeWordPuzzle {
             }
         }
         
-        System.out.println(score1);
+        System.out.println("Total Score: " + score1);
         winLose(score1); 
         System.out.println(""); 
         answerList(level1);
@@ -113,7 +116,8 @@ public class GameCoepoeWordPuzzle {
             }
         }
         
-        winLose(score1); 
+        System.out.println("Total Score: " + score2);
+        winLose(score2); 
         System.out.println(""); 
         answerList(level2);
         
@@ -125,60 +129,76 @@ public class GameCoepoeWordPuzzle {
         String[]level3={"", "eon","hen","her","hoe","hon","ken","nor","one","ore","rho","\n",
                         "roe","hero","hoer","hone","honk","horn","kern","oner","heron","honer","\n", "honker" +"\n"
         };
-        
-        int score3 = 0;
-        hitungan = 0;
-        tebakan = "";
-        autotebakan = false;
-        
-        while(!autotebakan && hitungan < 10){
-            hitungan++;
-            System.out.println(hitungan+"> Your Answer: ");
-            
-            tebakan = input.nextLine();
-            if(hitungan <= 10){
-                if(tebakan.length()>= 3 && tebakan.length() <= 6){
-                    for(int i = 0; i <= level3.length - 1; i++){
-                        boolean condition = level3[i].equals(tebakan);
-                            if(condition == true){
-                                score3 += 10;
-                                System.out.println("#Rigth. Score : " + score3);
-                            }
+
+            int score3 = 0;
+            hitungan = 0;
+            tebakan = "";
+            autotebakan = false;
+
+            while(!autotebakan && hitungan < 10){
+                hitungan++;
+                System.out.println(hitungan+"> Your Answer: ");
+
+                tebakan = input.nextLine();
+                if(hitungan <= 10){
+                    if(tebakan.length()>= 3 && tebakan.length() <= 6){
+                        for(int i = 0; i <= level3.length - 1; i++){
+                            boolean condition = level3[i].equals(tebakan);
+                                if(condition == true){
+                                    score3 += 10;
+                                    System.out.println("#Rigth. Score : " + score3);
+                                }
+                        }
+                    } else{
+                        hitungan--;
                     }
-                } else{
-                    hitungan--;
+                }else{
+                    autotebakan = true;
                 }
-            }else{
-                autotebakan = true;
+            }
+
+            System.out.println("Total Score: " + score3);
+            winLose(score3); 
+            System.out.println(""); 
+            answerList(level3);
+
+            int overall = score1+score2+score3;
+            System.out.println(""+ "\nOverall Score : " + overall + "\n You Win!! \n Press ENTER to exit..");
+
+            input.nextLine();
+            
+            try{
+                System.in.read();
+            }catch(IOException ioe) {
+                System.exit(0); // Generally used to indicate successful termination.
+            }
+            System.exit(0);
+            }
+    }
+        public static void winLose (int score){
+            Scanner input = new Scanner(System.in);
+            String loopingAnswer;
+            boolean running = true;
+
+            if(score >= 70){
+                System.out.println("\n You had answered 10 times with " + score/10 + " right answers..");
+            } else{
+                System.out.println("\n You Lose! Try Again..\n Do you want to retry [y/t] ?");
+            }
+            loopingAnswer = input.nextLine();
+            
+            if (loopingAnswer.equalsIgnoreCase("t")) {
+                running = false;
             }
         }
-        
-        System.out.println(score3);
-        winLose(score3); 
-        System.out.println(""); 
-        answerList(level3);
-        
-        int overall = score1+score2+score3;
-        System.out.println(""+ "\nOverall Score : " + overall + "\n You Win!! \n Press ENTER to exit..");
-        
-        input.nextLine();
-    }
-    
-    public static void winLose (int score){
-        if(score >= 70){
-            System.out.println("\n You had answered 10 times with " + score/10 + " right answers..");
-        } else{
-            System.out.println("\n You Lose! Try Again..\n Do you want to retry [y/t] ?");
+
+        public static void answerList(String list[]){
+            System.out.println("Correct Answers:");
+            String jawaban = Arrays.toString(list)
+                    .replace(",","      ")
+                    .replace("[", "\n")
+                    .replace("]", "");
+
+            System.out.println(jawaban);
         }
-    }
-    
-    public static void answerList(String list[]){
-        System.out.println("Correct Answers:");
-        String jawaban = Arrays.toString(list)
-                .replace(",","      ")
-                .replace("[", "\n")
-                .replace("]", "");
-        
-        System.out.println(jawaban);
-    }
 }      
